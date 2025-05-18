@@ -405,8 +405,8 @@
     <button class="sound-toggle" id="soundToggle">音效: 开</button>
     <button class="save-btn" id="saveBtn">保存成绩</button>
     <!-- 新增的超链接 -->
-    <a href="https://github.com/carfox163/cr" target="_blank" style="position: fixed; bottom: 5px; right: 25px;">github项目</a>
-    <a href="https://creativelearners.netlify.app/" target="_blank" style="position: fixed; bottom: 5px; right: 130px;">在线版</a>
+    <a href="https://github.com/carfox163/cr" target="_blank" style="position: fixed; bottom: 5px; right: 15px;">github项目</a>
+    <a href="https://creativelearners.netlify.app/" target="_blank" style="position: fixed; bottom: 5px; right: 105px;">在线版</a>
 
     <h1 class="main-title">Vocabulary Challenge</h1>
     <div id="timer">计时：60</div>
@@ -451,14 +451,14 @@
     <button class="start-btn" onclick="startGame()">开始</button>
 
     <!-- 音效元素 -->
-    <audio class="correct-sound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
-        您的浏览器不支持音频播放。
-    </audio>
-    <audio class="wrong-sound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
-        您的浏览器不支持音频播放。
-    </audio>
+<audio class="correct-sound">
+    <source src="https://cdn.pixabay.com/audio/2021/08/04/audio_c201b79c03.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放。
+</audio>
+<audio class="wrong-sound">
+    <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_6b59debae7.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放。
+</audio>
 
     <script>
         let wordsData = [];
@@ -503,7 +503,10 @@
             const newTime = parseInt(document.getElementById('gameTime').value);
             if (!isNaN(newTime) && newTime >= 10 && newTime <= 600) {
                 timeLeft = newTime;
-                document.getElementById('timer').textContent = `计时：${timeLeft}`;
+                const timerElement = document.getElementById('timer');
+                if (timerElement) {
+                    timerElement.textContent = `计时：${timeLeft}`;
+                }
             }
         }
 
@@ -560,26 +563,50 @@
             if (groupsCount < 3) {
                 usedWords.C = [];
                 results.C = { correct: 0, wrong: 0 };
-                document.getElementById('remainingC').textContent = wordsData.length;
-                document.getElementById('resultC').innerHTML = '';
+                const remainingC = document.getElementById('remainingC');
+                if (remainingC) {
+                    remainingC.textContent = wordsData.length;
+                }
+                const resultC = document.getElementById('resultC');
+                if (resultC) {
+                    resultC.innerHTML = '';
+                }
             }
             if (groupsCount < 2) {
                 usedWords.B = [];
                 results.B = { correct: 0, wrong: 0 };
-                document.getElementById('remainingB').textContent = wordsData.length;
-                document.getElementById('resultB').innerHTML = '';
+                const remainingB = document.getElementById('remainingB');
+                if (remainingB) {
+                    remainingB.textContent = wordsData.length;
+                }
+                const resultB = document.getElementById('resultB');
+                if (resultB) {
+                    resultB.innerHTML = '';
+                }
             }
 
             // 调整挑战容器布局
             const gameContainer = document.getElementById('gameContainer');
             if (groupsCount === 1) {
                 gameContainer.style.justifyContent = 'center';
-                document.getElementById('groupA').style.width = '70%';
+                const groupA = document.getElementById('groupA');
+                if (groupA) {
+                    groupA.style.width = '70%';
+                }
             } else {
                 gameContainer.style.justifyContent = 'space-around';
-                document.getElementById('groupA').style.width = '45%';
-                document.getElementById('groupB').style.width = '45%';
-                document.getElementById('groupC').style.width = '45%';
+                const groupA = document.getElementById('groupA');
+                if (groupA) {
+                    groupA.style.width = '45%';
+                }
+                const groupB = document.getElementById('groupB');
+                if (groupB) {
+                    groupB.style.width = '45%';
+                }
+                const groupC = document.getElementById('groupC');
+                if (groupC) {
+                    groupC.style.width = '45%';
+                }
             }
         }
 
@@ -639,8 +666,10 @@
             wordStatus = {}; // 重置单词回答状态
 
             const timerElement = document.getElementById('timer');
-            timerElement.style.display = 'inline-block';
-            timerElement.textContent = `计时：${timeLeft}`;
+            if (timerElement) {
+                timerElement.style.display = 'inline-block';
+                timerElement.textContent = `计时：${timeLeft}`;
+            }
 
             // 根据难度设置计时器速度
             let timerSpeed = 1000; // 默认1秒
@@ -652,7 +681,10 @@
 
             timer = setInterval(() => {
                 timeLeft--;
-                timerElement.textContent = `计时：${timeLeft}`;
+                const timerElement = document.getElementById('timer');
+                if (timerElement) {
+                    timerElement.textContent = `计时：${timeLeft}`;
+                }
                 if (timeLeft <= 0) {
                     clearInterval(timer);
                     showResults();
@@ -676,21 +708,27 @@
                 case 'en-cn': // 英译中
                     question = word.英文.toLowerCase();
                     correctAnswer = word.中文;
-                    wordBox.textContent = question;
+                    if (wordBox) {
+                        wordBox.textContent = question;
+                    }
                     generateOptions(group, correctAnswer, '中文', count);
                     break;
 
                 case 'cn-en': // 中译英
                     question = word.中文;
                     correctAnswer = word.英文.toLowerCase();
-                    wordBox.textContent = question;
+                    if (wordBox) {
+                        wordBox.textContent = question;
+                    }
                     generateOptions(group, correctAnswer, '英文', count);
                     break;
 
                 case 'spelling': // 拼写测试
                     question = word.中文;
                     correctAnswer = word.英文.toLowerCase();
-                    wordBox.textContent = `拼写: ${question}`;
+                    if (wordBox) {
+                        wordBox.textContent = `拼写: ${question}`;
+                    }
                     generateOptions(group, correctAnswer, '英文', count);
                     break;
             }
@@ -701,7 +739,9 @@
             if (!availableWords.length) {
                 alert(`该组已无剩余单词`);
                 const nextBtn = document.querySelector(`#group${group} .next-btn`);
-                nextBtn.disabled = true;
+                if (nextBtn) {
+                    nextBtn.disabled = true;
+                }
                 return;
             }
 
@@ -712,7 +752,9 @@
             setupQuestion(group, randomWord);
             updateRemainingWords();
             const nextBtn = document.querySelector(`#group${group} .next-btn`);
-            nextBtn.disabled = false;
+            if (nextBtn) {
+                nextBtn.disabled = false;
+            }
         }
 
         function generateOptions(group, correctAnswer, field, count) {
@@ -744,14 +786,18 @@
 
             // 清空并重新生成气泡选项
             const bubbles = document.getElementById(`bubbles${group}`);
-            bubbles.innerHTML = '';
+            if (bubbles) {
+                bubbles.innerHTML = '';
+            }
 
             options.forEach(option => {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
                 bubble.textContent = option;
                 bubble.onclick = (e) => checkAnswer(group, option, e);
-                bubbles.appendChild(bubble);
+                if (bubbles) {
+                    bubbles.appendChild(bubble);
+                }
             });
         }
 
@@ -784,8 +830,10 @@
                 results[group].correct++;
                 wordStatus[currentWords[group].英文] = true; // 标记为回答正确
                 if (soundEnabled) {
-                    correctSound.currentTime = 0;
-                    correctSound.play();
+                    if (correctSound) {
+                        correctSound.currentTime = 0;
+                        correctSound.play();
+                    }
                 }
                 generateNewQuestion(group);
                 updateRemainingWords();
@@ -793,36 +841,52 @@
                 results[group].wrong++;
                 wordStatus[currentWords[group].英文] = false; // 标记为回答错误
                 if (soundEnabled) {
-                    wrongSound.currentTime = 0;
-                    wrongSound.play();
+                    if (wrongSound) {
+                        wrongSound.currentTime = 0;
+                        wrongSound.play();
+                    }
                 }
-                e.target.style.background = '#dfe6e9';
-                e.target.style.borderColor = '#b2bec3';
-                e.target.style.animation = 'none';
+                if (e.target) {
+                    e.target.style.background = '#dfe6e9';
+                    e.target.style.borderColor = '#b2bec3';
+                    e.target.style.animation = 'none';
+                }
 
                 // 困难模式下答错会减少时间
                 if (difficulty === 'hard') {
                     timeLeft = Math.max(1, timeLeft - 2);
-                    document.getElementById('timer').textContent = `计时：${timeLeft}`;
+                    const timerElement = document.getElementById('timer');
+                    if (timerElement) {
+                        timerElement.textContent = `计时：${timeLeft}`;
+                    }
                 }
             }
         }
 
         function showResults() {
             if (groupsCount >= 1) {
-                document.getElementById('resultA').innerHTML = `
-                    🎉 正确：${results.A.correct} &nbsp;&nbsp; ❌ 错误：${results.A.wrong}
-                `;
+                const resultA = document.getElementById('resultA');
+                if (resultA) {
+                    resultA.innerHTML = `
+                        🎉 正确：${results.A.correct} &nbsp;&nbsp; ❌ 错误：${results.A.wrong}
+                    `;
+                }
             }
             if (groupsCount >= 2) {
-                document.getElementById('resultB').innerHTML = `
-                    🎉 正确：${results.B.correct} &nbsp;&nbsp; ❌ 错误：${results.B.wrong}
-                `;
+                const resultB = document.getElementById('resultB');
+                if (resultB) {
+                    resultB.innerHTML = `
+                        🎉 正确：${results.B.correct} &nbsp;&nbsp; ❌ 错误：${results.B.wrong}
+                    `;
+                }
             }
             if (groupsCount >= 3) {
-                document.getElementById('resultC').innerHTML = `
-                    🎉 正确：${results.C.correct} &nbsp;&nbsp; ❌ 错误：${results.C.wrong}
-                `;
+                const resultC = document.getElementById('resultC');
+                if (resultC) {
+                    resultC.innerHTML = `
+                        🎉 正确：${results.C.correct} &nbsp;&nbsp; ❌ 错误：${results.C.wrong}
+                    `;
+                }
             }
 
             // 保存结果到历史记录
@@ -871,8 +935,8 @@
 
             if (!hasResults) return alert('没有可保存的成绩记录');
 
-            // 根据用户地区设置分隔符
-            const separator = navigator.language === 'de-DE'? ';' : ',';
+            // 统一使用逗号作为分隔符
+            const separator = ',';
 
             // 创建CSV内容，解决中文乱码问题
             let csvContent = "\uFEFF"; // 添加BOM头解决中文乱码
@@ -934,9 +998,18 @@
         }
 
         function updateRemainingWords() {
-            document.getElementById('remainingA').textContent = wordsData.length - usedWords.A.length;
-            document.getElementById('remainingB').textContent = wordsData.length - usedWords.B.length;
-            document.getElementById('remainingC').textContent = wordsData.length - usedWords.C.length;
+            const remainingA = document.getElementById('remainingA');
+            if (remainingA) {
+                remainingA.textContent = wordsData.length - usedWords.A.length;
+            }
+            const remainingB = document.getElementById('remainingB');
+            if (remainingB) {
+                remainingB.textContent = wordsData.length - usedWords.B.length;
+            }
+            const remainingC = document.getElementById('remainingC');
+            if (remainingC) {
+                remainingC.textContent = wordsData.length - usedWords.C.length;
+            }
         }
 
         function prevQuestion(group) {
@@ -948,7 +1021,10 @@
 
                 // 重置该题的结果显示
                 const resultElement = document.getElementById(`result${group}`);
-                resultElement.innerHTML = '';
+                if (resultElement) {
+                    resultElement.innerHTML = '';
+                }
+                updateRemainingWords();
             }
         }
 
@@ -963,18 +1039,23 @@
 
                 // 启用按钮
                 const nextBtn = document.querySelector(`#group${group} .next-btn`);
-                nextBtn.disabled = false;
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                }
             } else {
                 alert(`该组已无剩余单词`);
 
                 // 禁用按钮
                 const nextBtn = document.querySelector(`#group${group} .next-btn`);
-                nextBtn.disabled = true;
+                if (nextBtn) {
+                    nextBtn.disabled = true;
+                }
             }
         }
 
         function displayQuestion(group, word) {
             setupQuestion(group, word);
+            updateRemainingWords();
         }
 
         function startReview() {
@@ -1007,6 +1088,9 @@
         function playSound(word) {
             if (!soundEnabled) return;
             const audio = new Audio(`https://dict.youdao.com/dictvoice?audio=${word}&type=2`);
+            audio.addEventListener('error', () => {
+                console.error(`发音播放失败: ${word}`);
+            });
             audio.play();
         }
     </script>
