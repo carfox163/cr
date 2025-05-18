@@ -625,10 +625,10 @@
 
             // 创建工作簿
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "单词表");
+            XLSX.utils.book_append_sheet(wb, ws, "要考查的单词表");
 
             // 生成Excel文件并下载
-            XLSX.writeFile(wb, "单词模板.xlsx");
+            XLSX.writeFile(wb, "单词表模板.xlsx");
         }
 
         function handleFile(e) {
