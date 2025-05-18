@@ -86,6 +86,7 @@
             text-align: center;
             box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.05);
             border: 2px dashed #ff9ff3;
+            cursor: pointer; /* 添加光标样式 */
         }
 
        .bubbles-container {
@@ -404,10 +405,8 @@
     <button class="sound-toggle" id="soundToggle">音效: 开</button>
     <button class="save-btn" id="saveBtn">保存成绩</button>
     <!-- 新增的超链接 -->
-    <div style="position: fixed; bottom: 5px; right: 25px;">
-        <a href="https://github.com/carfox163/cr" target="_blank">github项目</a>&nbsp;
-        <a href="https://carfox163.github.io/cr/" target="_blank">在线版</a>
-    </div>
+    <a href="https://github.com/carfox163/cr" target="_blank" style="position: fixed; bottom: 5px; right: 25px;">github项目</a>
+    <a href="https://carfox163.github.io/cr/" target="_blank" style="position: fixed; bottom: 5px; right: 130px;">在线版</a>
 
     <h1 class="main-title">Vocabulary Challenge</h1>
     <div id="timer">计时：60</div>
@@ -420,7 +419,7 @@
     <div class="game-container" id="gameContainer">
         <div class="group" id="groupA">
             <h2 class="group-title">A组 剩余： <span id="remainingA">0</span></h2>
-            <div class="word-box" id="wordA"></div>
+            <div class="word-box" id="wordA" onclick="playSound(this.textContent)"></div>
             <div class="bubbles-container" id="bubblesA"></div>
             <div class="result" id="resultA"></div>
             <div class="button-container">
@@ -430,7 +429,7 @@
         </div>
         <div class="group" id="groupB">
             <h2 class="group-title">B组 剩余：  <span id="remainingB">0</span></h2>
-            <div class="word-box" id="wordB"></div>
+            <div class="word-box" id="wordB" onclick="playSound(this.textContent)"></div>
             <div class="bubbles-container" id="bubblesB"></div>
             <div class="result" id="resultB"></div>
             <div class="button-container">
@@ -440,7 +439,7 @@
         </div>
         <div class="group" id="groupC" style="display: none;">
             <h2 class="group-title">C组 剩余：  <span id="remainingC">0</span></h2>
-            <div class="word-box" id="wordC"></div>
+            <div class="word-box" id="wordC" onclick="playSound(this.textContent)"></div>
             <div class="bubbles-container" id="bubblesC"></div>
             <div class="result" id="resultC"></div>
             <div class="button-container">
@@ -1002,6 +1001,13 @@
                 reviewWindow.document.write(reviewContent);
                 reviewWindow.document.close();
             }
+        }
+
+        // 新增播放发音的函数
+        function playSound(word) {
+            if (!soundEnabled) return;
+            const audio = new Audio(`https://dict.youdao.com/dictvoice?audio=${word}&type=2`);
+            audio.play();
         }
     </script>
 </body>
