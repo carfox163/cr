@@ -392,7 +392,7 @@
 <body>
     <!-- 添加超链接包裹文字，使用 target="_blank" 新窗口打开 -->
     <a href="http://2006b.ys168.com" target="_blank">
-        <div class="header">by Evita & CreativeLearner v2.3</div>
+        <div class="header">by Evita & CreativeLearner v2.4</div>
     </a>
     <!-- 将图片包裹在 <a> 标签内 -->
     <a href="http://2006b.ys168.com" target="_blank">
@@ -1063,14 +1063,38 @@
             updateRemainingWords();
         }
 
-        function playSound(word) {
-            if (gameMode === 'en-cn' || gameMode === 'spelling') {
-                const synth = window.speechSynthesis;
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                synth.speak(utterance);
+function playSound(word) {
+    const synth = window.speechSynthesis;
+    let textToSpeak = word;
+
+    if (gameMode === 'cn-en' || gameMode === 'spelling') {
+        // 提取中文内容，去除词性等非中文内容
+        textToSpeak = textToSpeak.replace(/[a-zA-Z. ]+/g, '');
+
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        // 设置中文语言
+        utterance.lang = 'zh-CN';
+
+        // 尝试设置高质量的语音引擎（不同浏览器支持的语音引擎可能不同）
+        const voices = synth.getVoices();
+        for (let i = 0; i < voices.length; i++) {
+            if (voices[i].lang === 'zh-CN') {
+                // 你可以根据需要选择特定的语音引擎
+                utterance.voice = voices[i];
+                break;
             }
         }
+
+        // 设置音量（范围从 0 到 1）
+        utterance.volume = 1;
+
+        synth.speak(utterance);
+    } else if (gameMode === 'en-cn' || gameMode === 'spelling') {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        synth.speak(utterance);
+    }
+}
 
         function startReview() {
             // 复习功能实现
