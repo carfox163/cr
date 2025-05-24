@@ -392,7 +392,7 @@
 <body>
     <!-- 添加超链接包裹文字，使用 target="_blank" 新窗口打开 -->
     <a href="http://2006b.ys168.com" target="_blank">
-        <div class="header">by Evita & CreativeLearner v2.5</div>
+        <div class="header">by Evita & CreativeLearner v2.4</div>
     </a>
     <!-- 将图片包裹在 <a> 标签内 -->
     <a href="http://2006b.ys168.com" target="_blank">
@@ -1104,8 +1104,29 @@
         }
 
         function startReview() {
-            // 这里可以添加单词复习的逻辑
-            alert('单词复习功能待实现');
+            if (!wordsData.length) return alert('请先上传单词文件');
+
+            // 创建新窗口
+            const reviewWindow = window.open('', '_blank');
+            if (reviewWindow) {
+                // 生成复习页面内容
+                let reviewContent = '<html><head><title>单词复习</title><style>';
+                reviewContent += '.correct { background-color: rgba(144, 238, 144, 0.5); }';
+                reviewContent += '.wrong { background-color: rgba(255, 192, 203, 0.5); }';
+                reviewContent += '</style></head><body>';
+
+                wordsData.forEach(word => {
+                    const status = wordStatus[word.英文];
+                    const className = status === true? 'correct' : 'wrong';
+                    reviewContent += `<p class="${className}">${word.英文} - ${word.中文}</p>`;
+                });
+
+                reviewContent += '</body></html>';
+
+                // 将内容写入新窗口
+                reviewWindow.document.write(reviewContent);
+                reviewWindow.document.close();
+            }
         }
 
 function playSound(word) {
