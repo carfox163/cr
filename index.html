@@ -392,7 +392,7 @@
 <body>
     <!-- 添加超链接包裹文字，使用 target="_blank" 新窗口打开 -->
     <a href="http://2006b.ys168.com" target="_blank">
-        <div class="header">by Evita & CreativeLearner v2.4</div>
+        <div class="header">by Evita & CreativeLearner v2.5</div>
     </a>
     <!-- 将图片包裹在 <a> 标签内 -->
     <a href="http://2006b.ys168.com" target="_blank">
@@ -500,6 +500,7 @@
         let optionsCount = 4;
         let usedWords = { A: [], B: [], C: [] }; // 记录每个组已经使用过的单词
         let wordStatus = {}; // 记录每个单词的回答情况
+        let currentQuestionIndex = { A: -1, B: -1, C: -1 }; // 记录每个组当前问题的索引
 
         // 初始化设置
         document.getElementById('fileInput').addEventListener('change', handleFile);
@@ -686,6 +687,7 @@
             };
             usedWords = { A: [], B: [], C: [] }; // 重置已使用单词列表
             wordStatus = {}; // 重置单词回答状态
+            currentQuestionIndex = { A: -1, B: -1, C: -1 }; // 重置问题索引
 
             const timerElement = document.getElementById('timer');
             if (timerElement) {
@@ -770,6 +772,7 @@
             const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
             currentWords[group] = randomWord;
             usedWords[group].push(randomWord); // 标记该单词已使用
+            currentQuestionIndex[group] = usedWords[group].length - 1;
 
             setupQuestion(group, randomWord);
             updateRemainingWords();
@@ -1020,34 +1023,70 @@
         }
 
         function updateRemainingWords() {
-            const remainingA = document.getElementById('remainingA');
-            if (remainingA) {
-                remainingA.textContent = wordsData.length - usedWords.A.length;
+            if (groupsCount >= 1) {
+                const remainingA = document.getElementById('remainingA');
+                if (remainingA) {
+                    remainingA.textContent = wordsData.length - usedWords.A.length;
+                }
             }
-            const remainingB = document.getElementById('remainingB');
-            if (remainingB) {
-                remainingB.textContent = wordsData.length - usedWords.B.length;
+            if (groupsCount >= 2) {
+                const remainingB = document.getElementById('remainingB');
+                if (remainingB) {
+                    remainingB.textContent = wordsData.length - usedWords.B.length;
+                }
             }
-            const remainingC = document.getElementById('remainingC');
-            if (remainingC) {
-                remainingC.textContent = wordsData.length - usedWords.C.length;
+            if (groupsCount >= 3) {
+                const remainingC = document.getElementById('remainingC');
+                if (remainingC) {
+                    remainingC.textContent = wordsData.length - usedWords.C.length;
+                }
             }
         }
 
-        function resetGame() {
-            if (timer) clearInterval(timer);
-            timeLeft = parseInt(document.getElementById('gameTime').value) || 30;
-            const timerElement = document.getElementById('timer');
-            if (timerElement) {
-                timerElement.textContent = `计时：${timeLeft}`;
+        function prevQuestion(group) {
+            if (currentQuestionIndex[group] > 0) {
+                currentQuestionIndex[group]--;
+                const prevWord = usedWords[group][currentQuestionIndex[group]];
+                currentWords[group] = prevWord;
+                setupQuestion(group, prevWord);
+                const prevBtn = document.querySelector(`#group${group} .prev-btn`);
+                if (prevBtn) {
+                    prevBtn.disabled = false;
+                }
+                const nextBtn = document.querySelector(`#group${group} .next-btn`);
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                }
+            } else {
+                alert('已经是第一个问题了');
+                const prevBtn = document.querySelector(`#group${group} .prev-btn`);
+                if (prevBtn) {
+                    prevBtn.disabled = true;
+                }
             }
+        }
+
+        function nextQuestion(group) {
+            generateNewQuestion(group);
+        }
+
+        function resetGame() {
+            // 重置挑战状态
+            timeLeft = parseInt(document.getElementById('gameTime').value) || 30;
             results = {
                 A: { correct: 0, wrong: 0 },
                 B: { correct: 0, wrong: 0 },
                 C: { correct: 0, wrong: 0 }
             };
-            usedWords = { A: [], B: [], C: [] };
-            wordStatus = {};
+            usedWords = { A: [], B: [], C: [] }; // 重置已使用单词列表
+            wordStatus = {}; // 重置单词回答状态
+            currentQuestionIndex = { A: -1, B: -1, C: -1 }; // 重置问题索引
+
+            const timerElement = document.getElementById('timer');
+            if (timerElement) {
+                timerElement.textContent = `计时：${timeLeft}`;
+            }
+
             const resultA = document.getElementById('resultA');
             if (resultA) {
                 resultA.innerHTML = '';
@@ -1060,7 +1099,13 @@
             if (resultC) {
                 resultC.innerHTML = '';
             }
+
             updateRemainingWords();
+        }
+
+        function startReview() {
+            // 这里可以添加单词复习的逻辑
+            alert('单词复习功能待实现');
         }
 
 function playSound(word) {
@@ -1096,17 +1141,6 @@ function playSound(word) {
     }
 }
 
-        function startReview() {
-            // 复习功能实现
-        }
-
-        function prevQuestion(group) {
-            // 上一题功能实现
-        }
-
-        function nextQuestion(group) {
-            generateNewQuestion(group);
-        }
     </script>
 </body>
 
