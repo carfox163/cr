@@ -6,7 +6,7 @@
 
 🔥 [外语学习资料空间](http://2006b.ys168.com) 
 
-🔥 <img src="https://github.com/user-attachments/assets/d5ac8edd-7db2-44fa-983d-69981b07b76c" width="150" height="100" />
+🔥公众号 <img src="https://github.com/user-attachments/assets/d5ac8edd-7db2-44fa-983d-69981b07b76c" width="150" height="100" />
 
 ![image](https://github.com/user-attachments/assets/0bf1bdee-10ba-4b0f-a54c-8227dce9474a)
 
@@ -78,7 +78,7 @@
 
 ### （一）快速开始流程
 
-*   访问网址：https://creativelearners.netlify.app/，加载游戏主界面。
+*   访问网址：[https://creativelearners.netlify.app/](https://creativelearners.netlify.app)，加载游戏主界面。
 
 *   设置挑战参数：选择 “选项数量”，输入 “挑战时间”（可选），点击 “开始游戏”。
 
@@ -104,7 +104,7 @@
 
 ### 五、常见问题解答（FAQ）
 
-*   Q：如何获取更多单词表？A：点击页面 “更多单词表下载”，或访问 GitHub 项目（https://github.com/creativelearners/vocab-challenge）查看社区共享词表。
+*   Q：如何获取更多单词表？A：点击页面 “更多单词表下载”，或访问 GitHub 项目（[https://github.com/creativelearners/vocab-challenge](https://github.com/carfox163/cr)）查看社区共享词表。
 
 *   Q：双人模式如何切换组别？A：游戏开始前，A 组玩家使用鼠标选择选项，B 组玩家可通过键盘 “↑↓←→” 键 +“空格” 键操作，系统自动识别输入来源区分组别。
 
