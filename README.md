@@ -104,7 +104,7 @@
 
 ### 五、常见问题解答（FAQ）
 
-*   Q：如何获取更多单词表？A：点击页面 “更多单词表下载”，或访问 GitHub 项目（[https://github.com/creativelearners/vocab-challenge](https://github.com/carfox163/cr)）查看社区共享词表。
+*   Q：如何获取更多单词表？A：点击页面 “更多单词表下载”，或访问 GitHub 项目（[https://github.com/carfox163/cr](https://github.com/carfox163/cr)）查看社区共享词表。
 
 *   Q：双人模式如何切换组别？A：游戏开始前，A 组玩家使用鼠标选择选项，B 组玩家可通过键盘 “↑↓←→” 键 +“空格” 键操作，系统自动识别输入来源区分组别。
 
